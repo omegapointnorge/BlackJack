@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id "application"
+}
+
+group 'no.itverket'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+ext {
+    javaMainClass = "no.itverket.Program"
+}
+
+application {
+    mainClassName = javaMainClass
+}
+
+run {
+    standardInput = System.in
+}
+
+clean {
+    delete rootProject.buildDir
+}
