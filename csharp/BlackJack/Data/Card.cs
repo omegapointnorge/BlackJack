@@ -1,4 +1,4 @@
-﻿namespace BlackJack
+﻿namespace BlackJack.Data
 {
     public class Card
     {
