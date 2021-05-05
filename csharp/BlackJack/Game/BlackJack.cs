@@ -6,17 +6,17 @@ namespace BlackJack.Game
 {
     public class BlackJack : CardGame
     {
+        private GameState _state;
         private IDeck _deck;
         private Hand _playerHand;
         private Hand _dealerHand;
-        private GameState _state;
         
         protected override void Setup()
         {
+            _state = GameState.Running;
             _deck = new Deck();
             _playerHand = new PlayerHand();
             _dealerHand = new DealerHand();
-            _state = GameState.Running;
         }
         
         protected override void GameLoop()
