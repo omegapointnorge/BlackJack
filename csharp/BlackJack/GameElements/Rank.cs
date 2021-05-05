@@ -19,11 +19,18 @@ namespace BlackJack.GameElements
             _value = (RankValue)value;
         }
 
+        public Rank(RankValue rank)
+        {
+            _value = rank;
+        }
+
         public int GetValue()
         {
             if (_value == RankValue.Ace) return 11;
             return (int)_value > 10 ? 10 : (int)_value;
         }
+
+        public RankValue GetRankValue() => _value;
 
         public void SetValue(int value) => _value = (RankValue)value;
 
