@@ -12,12 +12,6 @@
         protected abstract void Setup();
 
         protected abstract void GameLoop();
-        
-        protected abstract void CheckState();
-        
-        protected abstract void ValidatePlay();
-
-        protected abstract void DetermineWinner();
 
         protected abstract void ResetGame();
     }

@@ -71,6 +71,14 @@ namespace BlackJack.Game
             }
         }
 
+        protected override void ResetGame()
+        {
+            _deck.ResetDeck();
+            _playerHand.ResetHand();
+            _dealerHand.ResetHand();
+            _state = GameState.Running;
+        }
+
         private void PlayDealer()
         {
             while (_dealerHand.GetHandSum() < BlackJackValidator.DealerLimit)
@@ -87,7 +95,7 @@ namespace BlackJack.Game
             return card;
         }
 
-        protected override void ValidatePlay()
+        private void ValidatePlay()
         {
             if (!BlackJackValidator.ValidateHand(_playerHand))
             {
@@ -100,7 +108,7 @@ namespace BlackJack.Game
             }
         }
 
-        protected override void DetermineWinner()
+        private void DetermineWinner()
         {
             var playerHandSum = _playerHand.GetHandSum();
             var dealerHandSum = _dealerHand.GetHandSum();
@@ -118,16 +126,7 @@ namespace BlackJack.Game
             }
         }
 
-
-        protected override void ResetGame()
-        {
-            _deck.ResetDeck();
-            _playerHand.ResetHand();
-            _dealerHand.ResetHand();
-            _state = GameState.Running;
-        }
-
-        protected override void CheckState()
+        private void CheckState()
         {
             switch (_state) 
             {
