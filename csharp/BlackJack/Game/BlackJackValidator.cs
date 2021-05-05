@@ -1,19 +1,15 @@
-﻿using BlackJack.Repositories;
+﻿using BlackJack.GameElements;
 
 namespace BlackJack.Game
 {
     public static class BlackJackValidator
     {
         public const int BlackJackLimit = 21;
+        public const int DealerLimit = 18;
 
-        public static bool ValidatePlayerHand(IHand hand)
+        public static bool ValidateHand(Hand hand)
         {
-            if (hand.GetHandSum() > BlackJackLimit)
-            {
-                return false;
-            }
-
-            return true;
+            return hand.GetHandSum() <= BlackJackLimit;
         }
     }
 }

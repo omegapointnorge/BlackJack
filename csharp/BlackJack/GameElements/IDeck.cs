@@ -1,7 +1,7 @@
-﻿using BlackJack.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BlackJack.Data;
 
-namespace BlackJack.Repositories
+namespace BlackJack.GameElements
 {
     public interface IDeck
     {

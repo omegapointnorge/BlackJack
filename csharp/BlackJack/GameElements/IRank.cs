@@ -1,4 +1,4 @@
-﻿namespace BlackJack.Repositories
+﻿namespace BlackJack.GameElements
 {
     public interface IRank
     {

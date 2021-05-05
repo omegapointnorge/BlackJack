@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlackJack.Repositories
+namespace BlackJack.GameElements
 {
     public enum RankValue
     {

@@ -17,6 +17,8 @@
         
         protected abstract void ValidatePlay();
 
+        protected abstract void DetermineWinner();
+
         protected abstract void ResetGame();
     }
 }

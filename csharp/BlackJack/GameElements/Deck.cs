@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJack.Repositories
+namespace BlackJack.GameElements
 {
     public class Deck : IDeck
     {

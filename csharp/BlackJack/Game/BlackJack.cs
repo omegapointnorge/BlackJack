@@ -1,5 +1,5 @@
 ﻿using BlackJack.Data;
-using BlackJack.Repositories;
+using BlackJack.GameElements;
 using System;
 
 namespace BlackJack.Game
@@ -7,13 +7,15 @@ namespace BlackJack.Game
     public class BlackJack : CardGame
     {
         private IDeck _deck;
-        private IHand _hand;
+        private Hand _playerHand;
+        private Hand _dealerHand;
         private GameState _state;
         
         protected override void Setup()
         {
             _deck = new Deck();
-            _hand = new Hand();
+            _playerHand = new PlayerHand();
+            _dealerHand = new DealerHand();
             _state = GameState.Running;
         }
         
@@ -21,8 +23,11 @@ namespace BlackJack.Game
         {
             while (true)
             {
+                var dealerCard = Hit(_dealerHand);
                 while (_state == GameState.Running)
                 {
+                    Console.WriteLine($"Dealer has {dealerCard.Rank}");
+
                     var playerChoice = GetPlayerChoice();
                     if (!Enum.TryParse<PlayerChoice>(playerChoice, true, out var choice))
                     {
@@ -33,12 +38,19 @@ namespace BlackJack.Game
                     switch (choice)
                     {
                         case PlayerChoice.Hit:
-                            Hit();
+                            var card = Hit(_playerHand);
+                            // Fetch this beforehand because aces might be set to 1 and it would print 1 instead of A.
+                            var cardValue = card.Rank.ToString();
+                            var total = _playerHand.GetHandSum();
+                            Console.WriteLine($"Hit with {card.Suit} {cardValue}. Total is {total}");
                             break;
                         case PlayerChoice.Stand:
+                            PlayDealer();
+                            DetermineWinner();
                             break;
                         case PlayerChoice.Fold:
-                            return;
+                            _state = GameState.PlayerLoss;
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -59,26 +71,59 @@ namespace BlackJack.Game
             }
         }
 
-        private void Hit()
+        private void PlayDealer()
+        {
+            while (_dealerHand.GetHandSum() < BlackJackValidator.DealerLimit)
+            {
+                var card = Hit(_dealerHand);
+                Console.WriteLine($"Dealer hit and got {card.Rank}. Dealers total is {_dealerHand.GetHandSum()}");
+            }
+        }
+
+        private Card Hit(Hand hand)
         {
             var card = _deck.DrawCard();
-            _hand.AddToHand(card);
-            // Fetch this beforehand because aces might be set to 1 and it would print 1 instead of A.
-            var cardValue = card.Rank.ToString();
-            var total = _hand.GetHandSum();
-            Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, cardValue, total);
+            hand.AddToHand(card);
+            return card;
         }
 
         protected override void ValidatePlay()
         {
-            if (!BlackJackValidator.ValidatePlayerHand(_hand))
+            if (!BlackJackValidator.ValidateHand(_playerHand))
+            {
                 _state = GameState.PlayerLoss;
+            }
+            
+            if (!BlackJackValidator.ValidateHand(_dealerHand))
+            {
+                _state = GameState.DealerLoss;
+            }
         }
+
+        protected override void DetermineWinner()
+        {
+            var playerHandSum = _playerHand.GetHandSum();
+            var dealerHandSum = _dealerHand.GetHandSum();
+            if (playerHandSum == dealerHandSum)
+            {
+                _state = GameState.Draw;
+            }
+            else if (playerHandSum > dealerHandSum)
+            {
+                _state = GameState.DealerLoss;
+            }
+            else if (dealerHandSum > playerHandSum)
+            {
+                _state = GameState.PlayerLoss;
+            }
+        }
+
 
         protected override void ResetGame()
         {
             _deck.ResetDeck();
-            _hand.ResetHand();
+            _playerHand.ResetHand();
+            _dealerHand.ResetHand();
             _state = GameState.Running;
         }
 

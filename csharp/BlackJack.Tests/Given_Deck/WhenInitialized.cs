@@ -1,4 +1,4 @@
-﻿using BlackJack.Repositories;
+﻿using BlackJack.GameElements;
 using NUnit.Framework;
 using System.Linq;
 

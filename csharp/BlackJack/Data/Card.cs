@@ -1,4 +1,4 @@
-﻿using BlackJack.Repositories;
+﻿using BlackJack.GameElements;
 
 namespace BlackJack.Data
 {
