@@ -2,14 +2,18 @@
 {
     public abstract class CardGame
     {
-        protected abstract void Setup();
-
         public virtual void Start()
         {
             Setup();
             GameLoop();
         }
+        
+        protected abstract void Setup();
 
         protected abstract void GameLoop();
+        
+        protected abstract void CheckState();
+        
+        protected abstract void ValidatePlay();
     }
 }

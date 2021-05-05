@@ -7,10 +7,10 @@ namespace BlackJack
         private static void Main()
         {
             var choice = "Y";
-            while("Y".Equals(choice))
+            while("Y".ToLower().Equals(choice?.ToLower()))
             {
                 new Game.BlackJack().Start();
-                Console.Write("Do you want to play again? Y/N");
+                Console.Write("Do you want to play again? Y/N\n");
                 choice = Console.ReadLine();
             }
         }

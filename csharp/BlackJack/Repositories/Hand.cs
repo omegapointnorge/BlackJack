@@ -21,7 +21,7 @@ namespace BlackJack.Repositories
 
         public int GetHandSum()
         {
-            return _hand.Sum(x => Math.Min(x.Rank, 10));
+            return _hand.Sum(x => Math.Min(x.Rank.GetValue(), 10));
         }
 
         public void ResetHand()

@@ -46,12 +46,6 @@ namespace BlackJack.Game
             }
         }
 
-        private void ValidatePlay()
-        {
-            if (!BlackJackValidator.ValidatePlayerHand(_hand))
-                _state = GameState.PlayerLoss;
-        }
-
         private void Hit()
         {
             var card = _deck.DrawCard();
@@ -60,9 +54,15 @@ namespace BlackJack.Game
             Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.Rank, total);
         }
 
-        private void CheckState()
+        protected override void ValidatePlay()
         {
-            switch (_state)
+            if (!BlackJackValidator.ValidatePlayerHand(_hand))
+                _state = GameState.PlayerLoss;
+        }
+
+        protected override void CheckState()
+        {
+            switch (_state) 
             {
                 case GameState.Running:
                     return;
