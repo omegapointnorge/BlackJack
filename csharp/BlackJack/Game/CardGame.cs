@@ -6,6 +6,7 @@
         {
             Setup();
             GameLoop();
+            ResetGame();
         }
         
         protected abstract void Setup();
@@ -15,5 +16,7 @@
         protected abstract void CheckState();
         
         protected abstract void ValidatePlay();
+
+        protected abstract void ResetGame();
     }
 }

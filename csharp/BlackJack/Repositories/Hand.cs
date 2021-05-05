@@ -1,5 +1,5 @@
 ﻿using BlackJack.Data;
-using System;
+using BlackJack.Game;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +21,18 @@ namespace BlackJack.Repositories
 
         public int GetHandSum()
         {
-            return _hand.Sum(x => Math.Min(x.Rank.GetValue(), 10));
+            var sum = _hand.Sum(card => card.Rank.GetValue());
+            while (sum > BlackJackValidator.BlackJackLimit)
+            {
+                var ace = _hand.Find(card => card.Rank.GetValue() == 11);
+                if (ace != null)
+                    ace.Rank.SetValue(1);
+                else
+                    break;
+                sum = _hand.Sum(card => card.Rank.GetValue());
+            }
+
+            return sum;
         }
 
         public void ResetHand()

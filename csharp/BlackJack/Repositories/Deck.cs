@@ -17,7 +17,16 @@ namespace BlackJack.Repositories
 
         public Card DrawCard()
         {
-            return _cards.Dequeue();
+            try
+            {
+                return _cards.Dequeue();
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("Deck is empty! Resetting the deck...");
+                ResetDeck();
+                return _cards.Dequeue();
+            }
         }
 
         public int GetDeckSize() => _cards.Count;
@@ -38,10 +47,12 @@ namespace BlackJack.Repositories
             var cardList = new List<Card>();
             foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             {
-                for (var i = 1; i < 14; i++)
-                {
-                    cardList.Add(new Card { Rank = new Rank(i), Suit = suit });
-                }
+                cardList.AddRange(from RankValue rankValue in Enum.GetValues(typeof(RankValue))
+                    select new Card
+                    {
+                        Rank = new Rank((int) rankValue),
+                        Suit = suit
+                    });
             }
 
             _cards = new Queue<Card>(cardList);

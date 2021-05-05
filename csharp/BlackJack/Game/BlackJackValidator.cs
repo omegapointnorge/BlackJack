@@ -4,7 +4,7 @@ namespace BlackJack.Game
 {
     public static class BlackJackValidator
     {
-        private const int BlackJackLimit = 21;
+        public const int BlackJackLimit = 21;
 
         public static bool ValidatePlayerHand(IHand hand)
         {

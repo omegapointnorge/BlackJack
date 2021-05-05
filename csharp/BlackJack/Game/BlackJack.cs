@@ -19,30 +19,43 @@ namespace BlackJack.Game
         
         protected override void GameLoop()
         {
-            while (_state == GameState.Running)
+            while (true)
             {
-                var playerChoice = GetPlayerChoice();
-                if (!Enum.TryParse<PlayerChoice>(playerChoice, true, out var choice))
+                while (_state == GameState.Running)
                 {
-                    Console.WriteLine("That choice is not supported. Please try again.");
+                    var playerChoice = GetPlayerChoice();
+                    if (!Enum.TryParse<PlayerChoice>(playerChoice, true, out var choice))
+                    {
+                        Console.WriteLine("That choice is not supported. Please try again.");
+                        continue;
+                    }
+
+                    switch (choice)
+                    {
+                        case PlayerChoice.Hit:
+                            Hit();
+                            break;
+                        case PlayerChoice.Stand:
+                            break;
+                        case PlayerChoice.Fold:
+                            return;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+
+                    ValidatePlay();
+                    CheckState();
+                }
+                
+                Console.WriteLine("Play again? Y/N");
+                var again = Console.ReadLine();
+                if ("Y".ToLower().Equals(again?.ToLower()))
+                {
+                    ResetGame();
                     continue;
                 }
 
-                switch (choice)
-                {
-                    case PlayerChoice.Hit:
-                        Hit();
-                        break;
-                    case PlayerChoice.Stand:
-                        break;
-                    case PlayerChoice.Fold:
-                        return;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                ValidatePlay();
-                CheckState();
+                break;
             }
         }
 
@@ -50,14 +63,23 @@ namespace BlackJack.Game
         {
             var card = _deck.DrawCard();
             _hand.AddToHand(card);
+            // Fetch this beforehand because aces might be set to 1 and it would print 1 instead of A.
+            var cardValue = card.Rank.ToString();
             var total = _hand.GetHandSum();
-            Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.Rank, total);
+            Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, cardValue, total);
         }
 
         protected override void ValidatePlay()
         {
             if (!BlackJackValidator.ValidatePlayerHand(_hand))
                 _state = GameState.PlayerLoss;
+        }
+
+        protected override void ResetGame()
+        {
+            _deck.ResetDeck();
+            _hand.ResetHand();
+            _state = GameState.Running;
         }
 
         protected override void CheckState()
