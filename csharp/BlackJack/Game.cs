@@ -7,6 +7,7 @@ namespace BlackJack
         public Hand DealerHand;
         public Deck Deck;
         public Hand PlayerHand;
+        private const int DealerLimit = 17;
 
         public Game()
         {
@@ -36,7 +37,7 @@ namespace BlackJack
                 }
             }
 
-            while (DealerHand.CalculateHand() < 17)
+            while (DealerHand.CalculateHand() < DealerLimit)
             {
                 var card = Deck.Draw();
                 DealerHand.AddCard(card);

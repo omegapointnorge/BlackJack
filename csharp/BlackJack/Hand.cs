@@ -7,6 +7,7 @@ namespace BlackJack
     public class Hand
     {
         public List<Card> Cards;
+        private const int BustLimit = 21;
 
         public Hand()
         {
@@ -26,14 +27,14 @@ namespace BlackJack
             return countAces switch
             {
                 0 => total,
-                1 => total + 11 > 21 ? total + 1 : total + 11,
-                _ => total + 11 + countAces - 1 > 21 ? total + countAces : total + 11 + countAces - 1
+                1 => total + 11 > BustLimit ? total + 1 : total + 11,
+                _ => total + 11 + countAces - 1 > BustLimit ? total + countAces : total + 11 + countAces - 1
             };
         }
 
         public bool Busted()
         {
-            return CalculateHand() > 21;
+            return CalculateHand() > BustLimit;
         }
     }
 }
