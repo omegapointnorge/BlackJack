@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 
 namespace BlackJack
 {
@@ -12,20 +12,26 @@ namespace BlackJack
             var deck = new Deck();
             var hand = new List<Card>();
             var total = 0;
+
             var dealerHand = new List<Card>();
             var dealerTotal = 0;
+
             var dealerCard = deck.Cards.Dequeue();
-            dealerHand.Add(dealerCard);
+
             Console.WriteLine("\n");
             Console.WriteLine("New Round, dealer starts");
             Console.WriteLine("-------------------------------------");
+
+            dealerHand.Add(dealerCard);
+
             Console.WriteLine("Dealer Drew a {0} {1}", dealerCard.Suit, dealerCard.Rank);
 
             while (true)
             {
                 Console.WriteLine($"{ConsoleCommands.Stand}, {ConsoleCommands.Hit}");
                 string read = Console.ReadLine();
-                if (read == ConsoleCommands.Hit)
+
+                if (string.Equals(read, ConsoleCommands.Hit,StringComparison.OrdinalIgnoreCase))
                 {
                     var card = deck.Cards.Dequeue();
 
@@ -37,7 +43,7 @@ namespace BlackJack
                     if (total > 21)
                         break;
                 }
-                else if (read == ConsoleCommands.Stand)
+                else if (string.Equals(read, ConsoleCommands.Stand, StringComparison.OrdinalIgnoreCase))
                 {
                     break;
                 }
@@ -58,7 +64,7 @@ namespace BlackJack
                     Console.WriteLine("Dealer Drew a {0} {1}", card2.Suit, card2.Rank);
                 }
                 Console.WriteLine("Dealer Stops at {0}", dealerTotal);
-                if (dealerTotal < total)
+                if (dealerTotal > total)
                 {
                     Console.WriteLine("House wins");
                 }
@@ -72,7 +78,10 @@ namespace BlackJack
                 }
             }
         }
-        internal int FindTotal(List<Card> hand)
+
+        #region Private Functions
+
+        private int FindTotal(List<Card> hand)
         {
             var total = hand.Sum(x => Math.Min((int)x.Rank, 11));
             var aces = hand.Where(x => x.Rank is CardRank.A).ToList();
@@ -84,7 +93,8 @@ namespace BlackJack
             }
             return total;
         }
-        internal int FindTotalDealer(List<Card> dealerHand)
+
+        private int FindTotalDealer(List<Card> dealerHand)
         {
             var dealerTotal = dealerHand.Sum(x => Math.Min((int)x.Rank, 10));
             var aces = dealerHand.Where(x => x.Rank is CardRank.A).ToList();
@@ -97,8 +107,7 @@ namespace BlackJack
                 i++;
             }
             return dealerTotal;
-
         }
-
+        #endregion
     }
 }
