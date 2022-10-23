@@ -10,8 +10,12 @@ namespace BlackJack
         static void Main(string[] args)
         {
             var deck = new Deck();
-            var hand = new List<Card>();
-            Random random = new Random();
+            var player = new Player();
+            var dealer = new Dealer();
+
+            var dealerCard = dealer.GetNewCard(deck);
+            dealer.AddCardToHand(dealerCard);
+            Console.WriteLine("Dealer drew {0} {1}", dealerCard.Suit, dealerCard.Rank);
 
             while (true)
             {
@@ -19,51 +23,52 @@ namespace BlackJack
                 string read = Console.ReadLine();
                 if (read == "Hit")
                 {
-                    var randomNumber = random.Next(0, deck.Cards.Count);
-                    var card = deck.Cards.ToArray().ToList()[randomNumber];
-                    deck.Cards.ToArray().ToList().Remove(card);
+                    // Get a card from a specific index and remove it afterwards
+                    var card = player.GetNewCard(deck);
+                    deck.Cards = new Queue<Card>(deck.Cards.Where(newCard => newCard != card));
 
-                    //TODO Change this check to happen at each hit so it's more adaptable
-                    if (card.WriteRank() == "A")
-                    {
-                        var sum = GetSumOfCards(hand);
-                        // If the range is between 6 and 11 then we want Ace to be 11. 
-                        // The range could be lower but the dealer should not be able to hit if the score exceededs 17, menaing it *might* result in a draw at worst
-                        if(6 < sum && sum < 11)
-                        {
-                            card.Rank = 11;
-                        }
-                        else
-                        {
-                            card.Rank = 1;
-                        }
-                    }
-
-                    hand.Add(card);
-                    var total = GetSumOfCards(hand);
+                    player.AddCardToHand(card);
+                    var total = player.GetSumOfHand();
 
                     if (total > 21)
                     {
-                        Console.WriteLine($"The sum of your hand exceedes 21, which means you've lost this round");
+                        Console.WriteLine("The sum of your hand exceedes 21, which means you've lost this round");
                         break;
                     }
 
-                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.WriteRank(), total);
+                    player.WriteStatsToConsole("You", card);
                 }
                 else if (read == "Stand")
                 {
                     break;
                 }
             }
-        }
 
-        private static int GetSumOfCards(List<Card> hand)
-        {
-            if(hand.Count == 0)
+            dealer.FinishGame(deck);
+            var playerSum = player.GetSumOfHand();
+            var dealerSum = dealer.GetSumOfHand();
+            Console.WriteLine("Dealer has {0}, you have {1}", dealerSum, playerSum);
+
+            if(playerSum > 21 && playerSum > 21)
             {
-                return 0;
+                Console.WriteLine("Both the player and dealer busted, better luck next round");
+            }else if (dealerSum > 21 || playerSum > 21)
+            {
+                bool playerBust = playerSum > 21;
+                string prefix = playerBust ? "player" : "dealer";
+                string suffix = playerBust ? "dealer" : "player";
+                Console.WriteLine("{0} went bust, {1} wins!", prefix, suffix);
+            }else
+            {
+                if(playerSum == dealerSum)
+                {
+                    Console.WriteLine("The score is equal meaning there is no winner");
+                } else
+                {
+                    var winner = playerSum > dealerSum ? "You are" : "The dealer is";
+                    Console.WriteLine("{0} the winner of this round, congratualtions!",winner);
+                }
             }
-            return hand.Sum(x => Math.Min(x.Rank, 10));
         }
     }
 }
