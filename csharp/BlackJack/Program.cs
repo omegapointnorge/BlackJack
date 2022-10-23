@@ -22,13 +22,13 @@ namespace BlackJack
                     hand.Add(card);
                     var total = hand.Sum(x => Math.Min(x.Rank, 10));
 
-                    if (total > 21)
+                    if (total > 221)
                     {
                         Console.WriteLine($"The sum of your hand exceedes 21, which means you've lost this round");
                         break;
                     }
 
-                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.Rank, total);
+                    Console.WriteLine("Hit with {0} {1}. Total is {2}", card.Suit, card.WriteRank(), total);
                 }
                 else if (read == "Stand")
                 {
