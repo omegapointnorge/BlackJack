@@ -15,7 +15,7 @@ namespace BlackJack
         {
             while(true)
             {
-                var card = GetNewCard(deck);
+                var card = GetNewCardAndUpdateDeck(ref deck);
                 AddCardToHand(card);
                 var total = GetSumOfHand();
                 WriteStatsToConsole("Dealer", card);

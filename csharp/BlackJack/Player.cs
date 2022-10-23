@@ -35,7 +35,7 @@ namespace BlackJack
         /// </summary>
         /// <param name="deck"></param>
         /// <returns>Returns your new card</returns>
-        public Card GetNewCard(Deck deck)
+        public Card GetNewCard(ref Deck deck)
         {
             var randomNumber = random.Next(0, deck.Cards.Count);
             // Get a card from a specific index
@@ -44,6 +44,18 @@ namespace BlackJack
             {
                 card.Rank = DetermineAceValue();
             }
+            return card;
+        }
+
+        /// <summary>
+        /// Collected function for getting a new card and simultaneously removing it from the deck
+        /// </summary>
+        /// <param name="deck"></param>
+        /// <returns>The card you drew</returns>
+        public Card GetNewCardAndUpdateDeck(ref Deck deck)
+        {
+            var card = GetNewCard(ref deck);
+            deck.RemoveCardFromDeck(card);
             return card;
         }
 

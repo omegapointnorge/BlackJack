@@ -35,8 +35,7 @@ namespace BlackJack
         public static void StartGame(Player player, Dealer dealer)
         {
             var deck = new Deck();
-            var dealerCard = dealer.GetNewCard(deck);
-            deck.RemoveCardFromDeck(dealerCard);
+            var dealerCard = dealer.GetNewCardAndUpdateDeck(ref deck);
             dealer.AddCardToHand(dealerCard);
             dealer.WriteStatsToConsole("Dealer", dealerCard);
 
@@ -47,8 +46,7 @@ namespace BlackJack
                 if (read == "Hit")
                 {
                     // Get a card from a specific index and remove it afterwards
-                    var card = player.GetNewCard(deck);
-                    deck.RemoveCardFromDeck(card);
+                    var card = player.GetNewCardAndUpdateDeck(ref deck);
                     player.AddCardToHand(card);
                     var total = player.GetSumOfHand();
 
@@ -94,7 +92,7 @@ namespace BlackJack
                 else
                 {
                     var winner = playerSum > dealerSum ? "You are" : "The dealer is";
-                    Console.WriteLine("{0} the winner of this round, congratualtions!", winner);
+                    Console.WriteLine("{0} the winner of this round!", winner);
                 }
             }
         }

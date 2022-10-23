@@ -85,8 +85,34 @@ namespace BlackJack.Tests.Player_Unit_Tests
             [Test]
             public void Should_Give_A_New_Card()
             {
-                var card = _player.GetNewCard(_deck);
+                var card = _player.GetNewCard(ref _deck);
                 Assert.IsInstanceOf<Card>(card, "Card is of wrong type");
+            }
+        }
+
+        [TestFixture]
+        public class TheGetNewCardAndUpdateDeckMethod
+        {
+            private Player _player;
+            private Deck _deck;
+
+            public TheGetNewCardAndUpdateDeckMethod()
+            {
+                _player = new Player();
+                _deck = new Deck();
+            }
+
+            [Test]
+            public void Should_Give_New_Card_And_Update_Deck()
+            {
+                var card = _player.GetNewCardAndUpdateDeck(ref _deck);
+                var count = _deck.Cards.Count;
+
+                Assert.Multiple(() =>
+                {
+                    Assert.IsInstanceOf<Card>(card, "Card is of wrong type");
+                    Assert.AreEqual(51, count, "Count is wrong after removing");
+                });
             }
         }
 
@@ -175,11 +201,7 @@ namespace BlackJack.Tests.Player_Unit_Tests
                 card1.Suit = Suit.Clubs;
                 card1.Rank = 6;
 
-                _player.AddCardToHand(card1);
-                Assert.AreEqual(_player.Hand.Count, 1, "Hand is of wrong size after adding card to it");
-
                 _player.EmptyHand();
-
                 Assert.AreEqual(_player.Hand.Count, 0, "Hand is of wrong size after clearing it");
             }
         }
