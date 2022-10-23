@@ -78,9 +78,33 @@ namespace BlackJack
             return value;
         }
 
+        /// <summary>
+        /// Writes the last drawn card's suit and rank as well as the total sum of the cards in your hand to the console
+        /// Takes a prefix for the name of the player. You / Dealer
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="card"></param>
         public void WriteStatsToConsole(string prefix, Card card)
         {
-            Console.WriteLine("\n {0} hit with {1} {2}. Total is now {3}", prefix, card.Suit, card.Rank, GetSumOfHand());
+            Console.WriteLine("{0} hit with {1} {2}. Total is now {3}", prefix, card.Suit, card.Rank, GetSumOfHand());
+        }
+
+
+        /// <summary>
+        /// Function for clearing the players current hand
+        /// </summary>
+        public void EmptyHand()
+        {
+            Hand.Clear();
+        }
+
+        /// <summary>
+        /// Function for getting the answer of the player
+        /// </summary>
+        /// <returns>The answer which was typed into the console</returns>
+        public virtual string GetNextAnswer()
+        {
+            return Console.ReadLine();
         }
     }
 }

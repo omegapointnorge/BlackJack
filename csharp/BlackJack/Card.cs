@@ -5,6 +5,10 @@
         public Suit Suit;
         public int Rank;
 
+        /// <summary>
+        /// Makes the Ace, Jack, Queen and King cards be represented as characters instead when printed
+        /// </summary>
+        /// <returns>The string to be printed to the console</returns>
         public string WriteRank()
         {
             var result = "";

@@ -7,6 +7,7 @@ namespace BlackJack.Tests.Given_Deck
     public class When_initialized : Scenario
     {
         private Deck _deck;
+
         public override void When()
         {
             _deck = new Deck();

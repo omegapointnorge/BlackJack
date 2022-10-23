@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BlackJack
 {
@@ -16,7 +17,15 @@ namespace BlackJack
                     Cards.Enqueue(new Card() { Rank = i, Suit = suit });
                 }
             }
+        }
 
+        /// <summary>
+        /// Removes a card from the deck at a specific index
+        /// </summary>
+        /// <param name="card"></param>
+        public void RemoveCardFromDeck(Card card)
+        {
+            Cards = new Queue<Card>(Cards.Where(newCard => newCard != card));
         }
     }
 }

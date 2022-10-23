@@ -7,18 +7,18 @@ namespace BlackJack
     public class Dealer : Player
     {
 
+        /// <summary>
+        /// Function to finish up the game for the dealer
+        /// </summary>
+        /// <param name="deck"></param>
         public void FinishGame(Deck deck)
         {
             while(true)
             {
-                // Draw card
-                // If sum of hand is greater than 17, stop drawing and compare
-                // If not, draw another card
-                // When finished compare the scores and announce the winner
                 var card = GetNewCard(deck);
                 AddCardToHand(card);
                 var total = GetSumOfHand();
-                WriteStatsToConsole("Dealer ", card);
+                WriteStatsToConsole("Dealer", card);
                 if (total >= 17)
                 {
                     break;
