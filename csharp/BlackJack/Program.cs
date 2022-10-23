@@ -11,6 +11,7 @@ namespace BlackJack
         {
             var deck = new Deck();
             var hand = new List<Card>();
+            Random random = new Random();
 
             while (true)
             {
@@ -18,9 +19,12 @@ namespace BlackJack
                 string read = Console.ReadLine();
                 if (read == "Hit")
                 {
-                    var card = deck.Cards.Dequeue();
+                    var randomNumber = random.Next(0, deck.Cards.Count);
+                    var card = deck.Cards.ToArray().ToList()[randomNumber];
+                    deck.Cards.ToArray().ToList().Remove(card);
 
-                    if(card.WriteRank() == "A")
+                    //TODO Change this check to happen at each hit so it's more adaptable
+                    if (card.WriteRank() == "A")
                     {
                         var sum = GetSumOfCards(hand);
                         // If the range is between 6 and 11 then we want Ace to be 11. 
