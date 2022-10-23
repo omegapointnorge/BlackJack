@@ -19,8 +19,24 @@ namespace BlackJack
                 if (read == "Hit")
                 {
                     var card = deck.Cards.Dequeue();
+
+                    if(card.WriteRank() == "A")
+                    {
+                        var sum = GetSumOfCards(hand);
+                        // If the range is between 6 and 11 then we want Ace to be 11. 
+                        // The range could be lower but the dealer should not be able to hit if the score exceededs 17, menaing it *might* result in a draw at worst
+                        if(6 < sum && sum < 11)
+                        {
+                            card.Rank = 11;
+                        }
+                        else
+                        {
+                            card.Rank = 1;
+                        }
+                    }
+
                     hand.Add(card);
-                    var total = hand.Sum(x => Math.Min(x.Rank, 10));
+                    var total = GetSumOfCards(hand);
 
                     if (total > 21)
                     {
@@ -35,6 +51,15 @@ namespace BlackJack
                     break;
                 }
             }
+        }
+
+        private static int GetSumOfCards(List<Card> hand)
+        {
+            if(hand.Count == 0)
+            {
+                return 0;
+            }
+            return hand.Sum(x => Math.Min(x.Rank, 10));
         }
     }
 }
