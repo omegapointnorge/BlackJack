@@ -11,12 +11,12 @@ namespace BlackJack.Tests.Player_Unit_Tests
         // Decided to follow this design principle for the tests
         // https://haacked.com/archive/2012/01/02/structuring-unit-tests.aspx/
 
-        private Player _player;
+        private Participant _player;
         private Deck _deck;
 
         public override void When()
         {
-            _player = new Player();
+            _player = new Participant();
             _deck = new Deck();
         }
 
@@ -73,12 +73,12 @@ namespace BlackJack.Tests.Player_Unit_Tests
         [TestFixture]
         public class TheGetNewCardMethod
         {
-            private Player _player;
+            private Participant _player;
             private Deck _deck;
 
             public TheGetNewCardMethod()
             {
-                _player = new Player();
+                _player = new Participant();
                 _deck = new Deck();
             }
 
@@ -93,12 +93,12 @@ namespace BlackJack.Tests.Player_Unit_Tests
         [TestFixture]
         public class TheGetNewCardAndUpdateDeckMethod
         {
-            private Player _player;
+            private Participant _player;
             private Deck _deck;
 
             public TheGetNewCardAndUpdateDeckMethod()
             {
-                _player = new Player();
+                _player = new Participant();
                 _deck = new Deck();
             }
 
@@ -119,12 +119,12 @@ namespace BlackJack.Tests.Player_Unit_Tests
         [TestFixture]
         public class TheAddCardToHandMethod
         {
-            private Player _player;
+            private Participant _player;
             private Deck _deck;
 
             public TheAddCardToHandMethod()
             {
-                _player = new Player();
+                _player = new Participant();
                 _deck = new Deck();
             }
 
@@ -144,12 +144,12 @@ namespace BlackJack.Tests.Player_Unit_Tests
         [TestFixture]
         public class TheDetermineAceValueMethod
         {
-            private Player _player;
+            private Participant _player;
             private Deck _deck;
 
             public TheDetermineAceValueMethod()
             {
-                _player = new Player();
+                _player = new Participant();
                 _deck = new Deck();
             }
 
@@ -185,12 +185,12 @@ namespace BlackJack.Tests.Player_Unit_Tests
         [TestFixture]
         public class TheEmptyHandMethod
         {
-            private Player _player;
+            private Participant _player;
             private Deck _deck;
 
             public TheEmptyHandMethod()
             {
-                _player = new Player();
+                _player = new Participant();
                 _deck = new Deck();
             }
 
