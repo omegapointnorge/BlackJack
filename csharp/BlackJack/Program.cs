@@ -13,38 +13,44 @@ namespace BlackJack
         {
             var player = new Player();
             var dealer = new Dealer();
+            var play = true;
 
-            while(true)
+            while(play)
             {
                 StartGame(player, dealer);
                 var winner = DetermineWinner(player,dealer);
                 WriteScoreToFile(winner, player, dealer);
-                Console.WriteLine("\n What would you like to do next? \n 1. Play again (Write 1) \n 2. See win % for player and dealer (Write 2)");
+                Console.WriteLine("\n What would you like to do next?" +
+                    " \n 1. Play again (Write 1) " +
+                    "\n 2. See the total amount of wins for player and dealer and start a new game(Write 2). " +
+                    "\n 3. See the total amount of wins for player and dealer and quit after (write 3)" +
+                    "\n 4. Quit the game (Write 4 or any letter)");
                 string answer = player.GetNextAnswer();
 
                 switch (answer)
                 {
                     case "1":
-                        Console.Clear();
-                        player.EmptyHand();
-                        dealer.EmptyHand();
+                        ResetGame(player, dealer);
                         break;
                     case "2":
                         GetStatisticsFromFile();
+                        Console.WriteLine("\n Press Enter to proceed");
+                        Console.ReadLine();
+                        ResetGame(player, dealer);
+                        break;
+                    case "3":
+                        GetStatisticsFromFile();
+                        Console.WriteLine("\n Press Enter to proceed");
+                        Console.ReadLine();
+                        play = false;
+                        break;
+                    case "4":
+                        Console.WriteLine("\n Thanks for playing, see you again next time :)");
+                        play = false;
                         break;
                     default:
+                        play = false;
                         break;
-                }
-
-            if(answer == "1")
-                {
-                    Console.Clear();
-                    player.EmptyHand();
-                    dealer.EmptyHand();
-                }
-                else
-                {
-                    break;
                 }
             }
         }
@@ -196,6 +202,13 @@ namespace BlackJack
 
             Console.WriteLine("The player has won a total of {0} matches and the dealer has won " +
                 "a total of {1} matches over the course of {2} games", playerWins, dealerWins, totalOccurrance);
+        }
+
+        public static void ResetGame(Player player , Dealer dealer)
+        {
+            Console.Clear();
+            player.EmptyHand();
+            dealer.EmptyHand();
         }
     }
 }
