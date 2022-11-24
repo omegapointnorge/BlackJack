@@ -1,0 +1,28 @@
+{
+  "ts-node": {
+    "cwd": "C:\\Dev\\BlackJack\\node",
+    "projectSearchDir": "C:\\Dev\\BlackJack\\node",
+    "project": "C:/Dev/BlackJack/node/tsconfig.json"
+  },
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
+    "stripInternal": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "inlineSourceMap": false,
+    "noEmit": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": false,
+    "outDir": "./.ts-node",
+    "module": "commonjs"
+  }
+}
